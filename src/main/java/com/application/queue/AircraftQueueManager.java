@@ -17,24 +17,26 @@ import com.application.entity.Aircraft;
 
 @Component
 public class AircraftQueueManager {
-    
+
     private static final Logger LOGGER = Logger.getLogger(AircraftQueueManager.class);
-    
+
+    private static final String PERSIST_DATABASE_TRUE = "true";
+
     @Value("${persist.datastore}")
     private String persistDatabaseProperty;
-    
+
     @Autowired
     private AircraftDAO aircraftDAO;
-    
+
     @Autowired
     private AircraftQueue aircraftQueue;
-    
+
     @PostConstruct
     private void fillAircraftQueue() {
-        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, "true")) {
+        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             // get aircrafts from db
             List<Aircraft> aircraftsInDB = aircraftDAO.getAllAircrafts();
-            
+
             if(aircraftsInDB == null) {
                 return;
             }
@@ -44,24 +46,39 @@ public class AircraftQueueManager {
             aircraftQueue.createAircraftQueue(aircraftsInDB);
         }
     }
-    
+
+    /**
+     * add an aircraft to the priority queue.
+     * also save the aircraft info the DB if indicated so in the application properties
+     * @param aircraft
+     * @return
+     */
     public synchronized boolean enqueue(Aircraft aircraft) {
         LOGGER.debug("Adding aircraft: " + aircraft.toString() + " to the queue");
-        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, "true")) {
+        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             aircraftDAO.saveAircraft(aircraft);
         }
         return aircraftQueue.enqueue(aircraft);
     }
 
+    /**
+     * remove an aircraft from the priority queue
+     * also delete the aircraft info the DB if indicated so in the application properties
+     * @return
+     */
     public synchronized Aircraft dequeue() {
         Aircraft aircraft = aircraftQueue.dequeue();
-        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, "true")) {
+        if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             aircraftDAO.deleteAircraft(aircraft);
         }
         LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from the queue");
         return aircraft;
     }
 
+    /**
+     * return a list of all the elements in the priority queue in order of their priority
+     * @return
+     */
     public synchronized LinkedList<Aircraft> listElements() {
         LinkedList<Aircraft> aircraftsInQueue = new LinkedList<>();
         Iterator<Aircraft> queueIterator = aircraftQueue.getQueueIterator();

@@ -3,8 +3,9 @@ package com.application.constants;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * To compare Enums precendencd, use:
- * if (EnumAircraftType.ordinal() > anotherCard.getRank().ordinal())
+ * Aircraft type
+ * To compare Enums precendence, use ordinals. Example:
+ * if (enumAircraftType1.ordinal() > enumAircraftType2.ordinal()) {}
  */
 public enum EnumAircraftType {
 
@@ -31,7 +32,7 @@ public enum EnumAircraftType {
         }
         return false;
     }
-    
+
     public static EnumAircraftType getIfContains(String code) {
         for (EnumAircraftType aircraftType : values()) {
             if (StringUtils.equalsIgnoreCase(code, aircraftType.code)) {

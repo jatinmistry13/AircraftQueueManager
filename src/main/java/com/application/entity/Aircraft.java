@@ -26,16 +26,16 @@ import lombok.ToString;
 @Entity
 @Table(name = "SC_AIRCRAFT")
 public class Aircraft {
-    
+
     @Enumerated(EnumType.STRING)
     private EnumAircraftType aircraftType;
-    
+
     @Enumerated(EnumType.STRING)
     private EnumAircraftSize aircraftSize;
-    
+
     @Column(name = "env_name", columnDefinition = "nvarchar(255)")
     private String aircraftName;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, columnDefinition = "int")

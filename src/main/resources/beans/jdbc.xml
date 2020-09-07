@@ -31,7 +31,7 @@
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="com.example.demo" />
+		<property name="packagesToScan" value="com.application" />
 		<property name="hibernateProperties">
 			<map>
 				<entry key="hibernate.hbm2ddl.auto" value="update" />

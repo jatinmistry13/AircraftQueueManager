@@ -36,33 +36,26 @@ public class ApiService {
             return new ResponseEntity<>(responseResult, HttpStatus.BAD_REQUEST);
         }
 
-
         if(!EnumAircraftType.isValidAircraftType(aircraftInfo.getAircraftType())) {
             EnumErrorType error = EnumErrorType.AIRCRAFT_TYPE_INVALID;
             ResponseWrapper responseResult = new ResponseWrapper(false, "", null, setError(error));
             return new ResponseEntity<>(responseResult, HttpStatus.BAD_REQUEST);
         }
-        
+
         if(!EnumAircraftSize.isValidAircraftSize(aircraftInfo.getAircraftSize())) {
             EnumErrorType error = EnumErrorType.AIRCRAFT_SIZE_INVALID;
             ResponseWrapper responseResult = new ResponseWrapper(false, "", null, setError(error));
             return new ResponseEntity<>(responseResult, HttpStatus.BAD_REQUEST);
         }
-        
+
         if(StringUtils.isBlank(aircraftInfo.getAircraftName())) {
             EnumErrorType error = EnumErrorType.AIRCRAFT_NAME_NULL_OR_EMPTY;
             ResponseWrapper responseResult = new ResponseWrapper(false, "", null, setError(error));
             return new ResponseEntity<>(responseResult, HttpStatus.BAD_REQUEST);
         }
-        
-//        if(aircraftInfo.getAircraftId() == null) {
-//            EnumErrorType error = EnumErrorType.AIRCRAFT_ID_NULL;
-//            ResponseWrapper responseResult = new ResponseWrapper(false, "", null, setError(error));
-//            return new ResponseEntity<>(responseResult, HttpStatus.BAD_REQUEST);
-//        }
 
         // get aircraft
-        Aircraft aircraft = getAircraft(aircraftInfo);
+        Aircraft aircraft = getAircraftFromAircraftInfo(aircraftInfo);
         if(aircraft == null) {
             EnumErrorType error = EnumErrorType.INTERNAL_SERVER_ERROR;
             ResponseWrapper responseResult = new ResponseWrapper(false, "", null, setError(error));
@@ -84,41 +77,39 @@ public class ApiService {
         return new ResponseEntity<Object>(responseResult, HttpStatus.OK);
     }
 
-    private Aircraft getAircraft(AircraftInfo info) {
+    private Aircraft getAircraftFromAircraftInfo(AircraftInfo info) {
         Aircraft aircraft = new Aircraft();
-        
+
         EnumAircraftType type = EnumAircraftType.getIfContains(info.getAircraftType());
         if(type == null) {
             return null;
         }
-        
+
         EnumAircraftSize size = EnumAircraftSize.getIfContains(info.getAircraftSize());
         if(size == null) {
             return null;
         }
-        
+
         aircraft.setAircraftType(type);
         aircraft.setAircraftSize(size);
         aircraft.setAircraftName(info.getAircraftName());
-        //aircraft.setAircraftId(info.getAircraftId());
         return aircraft;
 
     }
-    
+
     private AircraftInfo getAircraftInfoFromAircraft(Aircraft aircraft) {
         if(aircraft == null) {
             return null;
         }
-        
+
         AircraftInfo info = new AircraftInfo();
         info.setAircraftType(aircraft.getAircraftType().getCode());
         info.setAircraftSize(aircraft.getAircraftSize().getCode());
         info.setAircraftName(aircraft.getAircraftName());
-        //info.setAircraftId(aircraft.getAircraftId());
         return info;
     }
-    
-    public ErrorObject setError(EnumErrorType error){
+
+    private ErrorObject setError(EnumErrorType error){
         return new ErrorObject(error.getErrorCode(),error.getErrorMsg());
     }
 

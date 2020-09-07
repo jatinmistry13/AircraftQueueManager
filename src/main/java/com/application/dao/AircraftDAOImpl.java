@@ -31,8 +31,5 @@ public class AircraftDAOImpl extends BaseDAOImpl<Aircraft> implements AircraftDA
     public List<Aircraft> getAllAircrafts() {
         return this.findAll();
     }
-    
-    
-    
 
 }

@@ -10,22 +10,21 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 
-//@SpringBootApplication(exclude= HibernateJpaAutoConfiguration.class)
 @SpringBootApplication
 @PropertySource("classpath:application.properties")
 @ImportResource({
-  "classpath:beans/jdbc.xml"
-  })
+    "classpath:beans/jdbc.xml"
+})
 @ComponentScan(basePackages = {"com.application"})
 @EnableAutoConfiguration(exclude={
-      DataSourceAutoConfiguration.class, 
-      DataSourceTransactionManagerAutoConfiguration.class,
-      HibernateJpaAutoConfiguration.class
-      })
+        DataSourceAutoConfiguration.class, 
+        DataSourceTransactionManagerAutoConfiguration.class,
+        HibernateJpaAutoConfiguration.class
+})
 public class TestProjectApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TestProjectApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TestProjectApplication.class, args);
+    }
 
 }
