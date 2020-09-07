@@ -1,7 +1,10 @@
 package com.application.constants;
 
+/**
+ * For handling individual errors in the API requests
+ */
 public enum EnumErrorType {
-    
+
     SUCCESS(0,"OK"),
     INTERNAL_SERVER_ERROR(1, "Internal Server Error"),
     AIRCRAFT_INFO_NULL(2, "AircraftInfo is null"),
@@ -10,11 +13,11 @@ public enum EnumErrorType {
     AIRCRAFT_NAME_NULL_OR_EMPTY(5, "Aircraft name is null or empty"),
     AIRCRAFT_ID_NULL(6, "AircraftInfo id is null"),
     ERROR_CONVERTING_AIRCRAFT_INFO_TO_OBJECT(7, "Internal Server Error");
-    
-    
+
+
     private int errorCode;
     private String errorMsg;
-    
+
     private EnumErrorType(int code){
         this.errorCode = code;
     }

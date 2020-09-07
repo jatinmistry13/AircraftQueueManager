@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ErrorObject {
-    
+
     int errorCode;
     String errorMessage;
 

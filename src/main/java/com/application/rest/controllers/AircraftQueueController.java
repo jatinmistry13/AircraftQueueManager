@@ -16,20 +16,20 @@ import com.application.rest.service.ApiService;
 @RestController
 @RequestMapping("/queues")
 public class AircraftQueueController {
-    
+
     @Autowired
     private ApiService apiService;
-    
+
     @RequestMapping(value="/", method = RequestMethod.GET)
     public ResponseEntity<List<Aircraft>> listAircrafts() {
         return apiService.listAircrafts();
     }
-    
+
     @RequestMapping(value="/", method = RequestMethod.PUT)
     public ResponseEntity<Object> addAircraftToQueue(@RequestBody AircraftInfo aircraftInfo) {
         return apiService.addAircraftToQueue(aircraftInfo);
     }
-    
+
     @RequestMapping(value="/", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeAircraftFromQueue() {
         return apiService.removeAircraftFromQueue();

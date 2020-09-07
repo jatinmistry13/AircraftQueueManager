@@ -3,12 +3,14 @@ package com.application.constants;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- *
+ * Aircraft size
+ * To compare Enums precendence, use ordinals. Example:
+ * if (enumAircraftSize1.ordinal() > enumAircraftSize2.ordinal()) {}
  */
 public enum EnumAircraftSize {
     LARGE("Large"),
     SMALL("Small");
-    
+
     private String code;
 
     private EnumAircraftSize(String code){
@@ -27,7 +29,7 @@ public enum EnumAircraftSize {
         }
         return false;
     }
-    
+
     public static EnumAircraftSize getIfContains(String code) {
         for (EnumAircraftSize aircraftSize : values()) {
             if (StringUtils.equalsIgnoreCase(code, aircraftSize.code)) {
@@ -36,5 +38,5 @@ public enum EnumAircraftSize {
         }
         return null;
     }
-    
+
 }

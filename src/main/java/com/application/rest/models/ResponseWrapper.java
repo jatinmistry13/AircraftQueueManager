@@ -12,8 +12,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ResponseWrapper {
+
     private boolean success;
     private String message;
     private Object data;
     private Object error;
+
 }

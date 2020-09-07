@@ -7,6 +7,13 @@ import org.springframework.stereotype.Component;
 
 import com.application.entity.Aircraft;
 
+/**
+ * 
+ * Comparator for aicrafts before adding it to the queue. The comparison is made in the following order:
+ * - first compare aircraft types according to the precedence
+ * - second compare aircraft sizes according to the precedence
+ * - third compare their Ids
+ */
 @Component
 public class AircraftComparator implements Comparator<Aircraft> {
 
