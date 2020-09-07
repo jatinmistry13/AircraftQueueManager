@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+           http://www.springframework.org/schema/jee 
+           http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
+           http://www.springframework.org/schema/tx 
+     	   http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/context
+		   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/AC_QUEUE_MANAGER?createDatabaseIfNotExist=true&amp;autoReconnect=true&amp;useSSL=false&amp;serverTimezone=UTC"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="mstr1234"></property>
+		<property name="initialSize" value="10"></property>
+		<property name="maxActive" value="50"></property>
+		<property name="maxIdle" value="50"></property>
+		<property name="minIdle" value="10"></property>
+		<property name="maxWait" value="30000"></property>
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true"></property>
+		<property name="minEvictableIdleTimeMillis" value='#{30 * 60 * 60 * 1000}'></property>
+		<property name="timeBetweenEvictionRunsMillis" value='#{36 * 60 * 60 * 1000}'></property>
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.example.demo" />
+		<property name="hibernateProperties">
+			<map>
+				<entry key="hibernate.hbm2ddl.auto" value="update" />
+				<entry key="hibernate.dialect"
+					value="#{ @dataSource.driverClassName.equals('com.mysql.jdbc.Driver') ? 'org.hibernate.dialect.MySQL5InnoDBDialect' : 'org.hibernate.dialect.SQLServer2008Dialect' }" />
+				<entry key="hibernate.show_sql" value="false" />
+			</map>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
+
+	<bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+</beans>
