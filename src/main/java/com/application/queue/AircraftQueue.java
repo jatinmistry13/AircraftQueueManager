@@ -6,7 +6,8 @@ import java.util.concurrent.PriorityBlockingQueue;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import com.application.entity.Aircraft;
 @Component
 public class AircraftQueue {
 
-    private static final Logger LOGGER = Logger.getLogger(AircraftQueue.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AircraftQueue.class);
 
     private static int initialQueueCapacity = 11;
     private PriorityBlockingQueue<Aircraft> priorityQueue;

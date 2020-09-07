@@ -7,7 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import com.application.entity.Aircraft;
 @Component
 public class AircraftQueueManager {
 
-    private static final Logger LOGGER = Logger.getLogger(AircraftQueueManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AircraftQueueManager.class);
 
     private static final String PERSIST_DATABASE_TRUE = "true";
 
@@ -82,10 +83,10 @@ public class AircraftQueueManager {
     public synchronized LinkedList<Aircraft> listElements() {
         LinkedList<Aircraft> aircraftsInQueue = new LinkedList<>();
         Iterator<Aircraft> queueIterator = aircraftQueue.getQueueIterator();
-        LOGGER.debug("Following aircrafts are in the queue:");
+        //LOGGER.debug("Following aircrafts are in the queue:");
         while(queueIterator.hasNext()) {
             Aircraft aircraft = queueIterator.next();
-            LOGGER.debug(aircraft.toString());
+            //LOGGER.debug(aircraft.toString());
             aircraftsInQueue.add(aircraft);
         }
         return aircraftsInQueue;
