@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+
+	<property name="LOGS" value="./logs" />
+
+	<appender name="APPLICATION"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+		<!--for further documentation -->
+		<File>${LOGS}/application.log</File>
+		<Append>true</Append>
+		<encoder>
+			<pattern>%d %-6p [%-15t] %c- %m%n</pattern>
+		</encoder>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOGS}/archived/application.log.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<maxHistory>100</maxHistory>
+			<maxFileSize>5GB</maxFileSize>
+			<totalSizeCap>20GB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="CONSOLE"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d %-6p [%-15t] %c- %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.application" level="TRACE" additivity="false">
+		<appender-ref ref="APPLICATION" />
+	</logger>
+
+	<logger name="org.apache.catalina.startup.Catalina" level="INFO" additivity="false">
+		<appender-ref ref="APPLICATION" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="APPLICATION" />
+	</root>
+
+</configuration>
