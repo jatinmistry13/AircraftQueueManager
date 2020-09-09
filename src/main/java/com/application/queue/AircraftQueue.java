@@ -45,6 +45,10 @@ public class AircraftQueue {
      * @param aircrafts
      */
     public void createAircraftQueue(List<Aircraft> aircrafts) {
+        if(aircrafts == null) {
+            LOGGER.debug("aircrafts list is null");
+            return;
+        }
         priorityQueue.addAll(aircrafts);
         LOGGER.debug("Added " + aircrafts.size() + " entries in the queue");
     }
@@ -55,7 +59,10 @@ public class AircraftQueue {
      * @return
      */
     public boolean enqueue(Aircraft aircraft) {
-        LOGGER.debug("Adding aircraft: " + aircraft.toString() + " to the queue");
+        if(aircraft == null) {
+            LOGGER.debug("aircraft is null");
+            return false;
+        }
         return priorityQueue.add(aircraft);
     }
 
@@ -65,7 +72,10 @@ public class AircraftQueue {
      */
     public Aircraft dequeue() {
         Aircraft aircraft = priorityQueue.poll();
-        LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from the queue");
+        if(aircraft == null) {
+            LOGGER.debug("queue is empty");
+            return aircraft;
+        }
         return aircraft;
     }
 
@@ -75,5 +85,21 @@ public class AircraftQueue {
      */
     public Iterator<Aircraft> getQueueIterator() {
         return priorityQueue.iterator();
+    }
+    
+    /**
+     * returns the current size of the priority queue
+     * @return
+     */
+    public int size() {
+        return priorityQueue.size();
+    }
+    
+    /**
+     * returns true if the priority queue contains no elements.
+     * @return
+     */
+    public boolean isEmpty() {
+        return priorityQueue.isEmpty();
     }
 }

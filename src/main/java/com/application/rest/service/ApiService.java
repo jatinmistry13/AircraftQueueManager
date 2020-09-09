@@ -23,9 +23,10 @@ public class ApiService {
     @Autowired
     private AircraftQueueManager aircraftQueueManager;
 
-    public ResponseEntity<List<Aircraft>> listAircrafts() {
+    public ResponseEntity<Object> listAircrafts() {
         List<Aircraft> aircraftsInQueue = aircraftQueueManager.listElements();
-        return new ResponseEntity<>(aircraftsInQueue, HttpStatus.OK);
+        ResponseWrapper responseResult = new ResponseWrapper(true, "List of aircrafts in the Queue in order of their priority", aircraftsInQueue, null);
+        return new ResponseEntity<>(responseResult, HttpStatus.OK);
     }
 
     public ResponseEntity<Object> addAircraftToQueue(AircraftInfo aircraftInfo) {
@@ -72,6 +73,10 @@ public class ApiService {
 
     public ResponseEntity<Object> removeAircraftFromQueue() {
         Aircraft aircraft = aircraftQueueManager.dequeue();
+        if (aircraft == null) {
+            ResponseWrapper responseResult = new ResponseWrapper(true, "Aircraft queue is empty", null, null);
+            return new ResponseEntity<Object>(responseResult, HttpStatus.OK);
+        }
         AircraftInfo aircraftInfo = getAircraftInfoFromAircraft(aircraft);
         ResponseWrapper responseResult = new ResponseWrapper(true, "Aircraft successfully removed to the queue (value can be null if queue is empty)", aircraftInfo, null);
         return new ResponseEntity<Object>(responseResult, HttpStatus.OK);

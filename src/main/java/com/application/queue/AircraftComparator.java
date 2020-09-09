@@ -25,5 +25,35 @@ public class AircraftComparator implements Comparator<Aircraft> {
                 .append(a1.getAircraftId(), a2.getAircraftId())
                 .toComparison();
     }
+    
+//    @Override
+//    public int compare(Aircraft a1, Aircraft a2) {
+//        if (a1.getAircraftType().ordinal() < a2.getAircraftType().ordinal()) {
+//            return 1;
+//        } 
+//        else if (a1.getAircraftType().ordinal() == a2.getAircraftType().ordinal()) {
+//            if (a1.getAircraftSize().ordinal() < a2.getAircraftSize().ordinal()) {
+//                return 1;
+//            } 
+//            else if (a1.getAircraftSize().ordinal() == a2.getAircraftSize().ordinal()) {
+//                if (a1.getAircraftId() < a2.getAircraftId()) {
+//                    return 1;
+//                } 
+//                else if (a1.getAircraftId() == a2.getAircraftId()) {
+//                    return 0;
+//                } 
+//                else {
+//                    return -1;
+//                }
+//            } 
+//            else {
+//                return -1;
+//            }
+//        } 
+//        else {
+//            return -1;
+//        }
+//    }
+
 
 }
