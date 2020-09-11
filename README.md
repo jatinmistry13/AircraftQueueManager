@@ -8,8 +8,8 @@ You will also have to update the `jdbc.xml` file in order to connect to the data
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost:3306/AC_QUEUE_MANAGER?createDatabaseIfNotExist=true&amp;autoReconnect=true&amp;useSSL=false&amp;serverTimezone=UTC"></property>
-		<property name="username" value="YOUR_MYSQL_USERNAME"></property>
-		<property name="password" value="YOUR_MYSQL_PASSWORD"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="mstr1234"></property>
 		<property name="initialSize" value="10"></property>
 		<property name="maxActive" value="50"></property>
 		<property name="maxIdle" value="50"></property>
@@ -21,7 +21,7 @@ You will also have to update the `jdbc.xml` file in order to connect to the data
 		<property name="timeBetweenEvictionRunsMillis" value='#{36 * 60 * 60 * 1000}'></property>
 	</bean>
 ```
-Make sure to change the `YOUR_MYSQL_USERNAME` and `YOUR_MYSQL_PASSWORD` with your configured mysql username and password
+Make sure to change the mysql username and password with your settings.
 
 
 To compile the application:
