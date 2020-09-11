@@ -25,7 +25,7 @@ public class ApiService {
 
     public ResponseEntity<Object> listAircrafts() {
         List<Aircraft> aircraftsInQueue = aircraftQueueManager.listElements();
-        ResponseWrapper responseResult = new ResponseWrapper(true, "List of aircrafts in the Queue in order of their priority", aircraftsInQueue, null);
+        ResponseWrapper responseResult = new ResponseWrapper(true, "List of aircrafts in the Queue", aircraftsInQueue, null);
         return new ResponseEntity<>(responseResult, HttpStatus.OK);
     }
 

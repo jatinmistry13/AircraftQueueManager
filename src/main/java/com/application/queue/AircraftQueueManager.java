@@ -86,7 +86,7 @@ public class AircraftQueueManager {
     }
 
     /**
-     * return a list of all the elements in the priority queue in order of their priority
+     * return a list of all the elements in the priority queue
      * @return
      */
     public synchronized LinkedList<Aircraft> listElements() {
