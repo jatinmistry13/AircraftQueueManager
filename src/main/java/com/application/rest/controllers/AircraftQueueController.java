@@ -1,7 +1,5 @@
 package com.application.rest.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.application.entity.Aircraft;
 import com.application.rest.models.AircraftInfo;
 import com.application.rest.service.ApiService;
 
@@ -21,7 +18,7 @@ public class AircraftQueueController {
     private ApiService apiService;
 
     @RequestMapping(value="/", method = RequestMethod.GET)
-    public ResponseEntity<List<Aircraft>> listAircrafts() {
+    public ResponseEntity<Object> listAircrafts() {
         return apiService.listAircrafts();
     }
 

@@ -58,8 +58,11 @@ public class AircraftQueueManager {
         LOGGER.debug("Adding aircraft: " + aircraft.toString() + " to the queue");
         if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             aircraftDAO.saveAircraft(aircraft);
+            LOGGER.debug("Added aircraft: " + aircraft.toString() + " to DB");
         }
-        return aircraftQueue.enqueue(aircraft);
+        boolean result = aircraftQueue.enqueue(aircraft);
+        LOGGER.debug("Added aircraft: " + aircraft.toString() + " to the queue");
+        return result;
     }
 
     /**
@@ -68,16 +71,22 @@ public class AircraftQueueManager {
      * @return
      */
     public synchronized Aircraft dequeue() {
+        if (aircraftQueue.isEmpty()) {
+            LOGGER.debug("Aircraft queue is empty");
+            return null;
+        }
+        LOGGER.debug("Removing aircraft from the queue");
         Aircraft aircraft = aircraftQueue.dequeue();
         if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             aircraftDAO.deleteAircraft(aircraft);
+            LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from DB");
         }
         LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from the queue");
         return aircraft;
     }
 
     /**
-     * return a list of all the elements in the priority queue in order of their priority
+     * return a list of all the elements in the priority queue
      * @return
      */
     public synchronized LinkedList<Aircraft> listElements() {

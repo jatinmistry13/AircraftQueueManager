@@ -37,7 +37,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="com.application" level="TRACE" additivity="false">
+	<logger name="com.application" level="TRACE">
 		<appender-ref ref="APPLICATION" />
 	</logger>
 
