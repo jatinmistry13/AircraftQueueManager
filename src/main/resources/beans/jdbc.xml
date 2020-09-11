@@ -16,8 +16,8 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
 		<property name="url" value="jdbc:mysql://localhost:3306/AC_QUEUE_MANAGER?createDatabaseIfNotExist=true&amp;autoReconnect=true&amp;useSSL=false&amp;serverTimezone=UTC"></property>
-		<property name="username" value="YOUR_MYSQL_USERNAME"></property>
-		<property name="password" value="YOUR_MYSQL_PASSWORD"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="mstr1234"></property>
 		<property name="initialSize" value="10"></property>
 		<property name="maxActive" value="50"></property>
 		<property name="maxIdle" value="50"></property>
