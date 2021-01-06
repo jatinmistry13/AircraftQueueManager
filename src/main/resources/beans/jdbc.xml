@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<beans 
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
-           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-           http://www.springframework.org/schema/jee 
-           http://www.springframework.org/schema/jee/spring-jee-4.0.xsd
-           http://www.springframework.org/schema/tx 
-     	   http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+           http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context
-		   http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+		   http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/jee 
+           http://www.springframework.org/schema/jee/spring-jee.xsd
+           http://www.springframework.org/schema/tx 
+     	   http://www.springframework.org/schema/tx/spring-tx.xsd
+		   http://www.springframework.org/schema/data/jpa
+    	   http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -29,7 +33,7 @@
 		<property name="timeBetweenEvictionRunsMillis" value='#{36 * 60 * 60 * 1000}'></property>
 	</bean>
 
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+	<!-- <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="packagesToScan" value="com.application" />
 		<property name="hibernateProperties">
@@ -40,12 +44,39 @@
 				<entry key="hibernate.show_sql" value="false" />
 			</map>
 		</property>
+	</bean> -->
+	
+	<!-- Create default configuration for Hibernate -->
+  	<bean id="hibernateJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+		<!-- Set share cache mode -->
+    	<property name="sharedCacheMode" value="ENABLE_SELECTIVE"/>
+		<!-- Set validation mode -->
+    	<property name="validationMode" value="NONE"/>
+		<property name="packagesToScan" value="com.application" />
+		<property name="jpaProperties">
+			 <props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+			 </props>
+		</property>
 	</bean>
 	
 	<tx:annotation-driven proxy-target-class="true" transaction-manager="transactionManager" />
 
-	<bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+	<!-- <bean name="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
+	</bean> -->
+	
+	<bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	
+	<jpa:repositories base-package="com.application.dao" factory-class="com.application.dao.DefaultRepositoryFactoryBean" />
+	
 	
 </beans>

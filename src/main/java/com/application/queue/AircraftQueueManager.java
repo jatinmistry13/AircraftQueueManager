@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class AircraftQueueManager {
     @Value("${persist.datastore}")
     private String persistDatabaseProperty;
 
-    @Autowired
+    @Resource
     private AircraftDAO aircraftDAO;
 
     @Autowired
@@ -36,7 +37,7 @@ public class AircraftQueueManager {
     private void fillAircraftQueue() {
         if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
             // get aircrafts from db
-            List<Aircraft> aircraftsInDB = aircraftDAO.getAllAircrafts();
+            List<Aircraft> aircraftsInDB = aircraftDAO.findAll();
 
             if(aircraftsInDB == null) {
                 return;
@@ -57,7 +58,7 @@ public class AircraftQueueManager {
     public synchronized boolean enqueue(Aircraft aircraft) {
         LOGGER.debug("Adding aircraft: " + aircraft.toString() + " to the queue");
         if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
-            aircraftDAO.saveAircraft(aircraft);
+            aircraftDAO.save(aircraft);
             LOGGER.debug("Added aircraft: " + aircraft.toString() + " to DB");
         }
         boolean result = aircraftQueue.enqueue(aircraft);
@@ -78,7 +79,7 @@ public class AircraftQueueManager {
         LOGGER.debug("Removing aircraft from the queue");
         Aircraft aircraft = aircraftQueue.dequeue();
         if (StringUtils.equalsIgnoreCase(persistDatabaseProperty, PERSIST_DATABASE_TRUE)) {
-            aircraftDAO.deleteAircraft(aircraft);
+            aircraftDAO.delete(aircraft);
             LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from DB");
         }
         LOGGER.debug("Removed aircraft: " + aircraft.toString() + " from the queue");
